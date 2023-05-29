@@ -16,10 +16,10 @@ import OrderScreen from "./screens/OrderScreen";
 
 function App() {
   return (
-  <>
-  <Header/>
-      <main className="my-3">
-        <Container>
+    <>
+      <Header />
+      <Container>
+        <main className="my-3">
           <Routes>
             <Route path="/" element={<HomeScreen />} exact />
             <Route path="/order/:id" element={<OrderScreen />} />
@@ -31,11 +31,11 @@ function App() {
             <Route path="/register" element={<RegisterScreen />} />
             <Route path="/cart/:id?" element={<CartScreen />} />
             <Route path="/product/:id" element={<ProductDetails />} />
-            </Routes>
-        </Container>
-      </main>
-    <Footer />
-</>    
-
-)}
+          </Routes>
+        </main>
+      </Container>
+      <Footer />
+    </>
+  );
+}
 export default App;

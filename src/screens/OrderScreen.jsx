@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ORDER_PAY_RESET } from "../constants/orderConstant";
-import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { getOrderDetails, payOrder } from "../actions/orderAction";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,7 +40,7 @@ const OrderScreen = () => {
     const addPaypalScript = async () => {
       const baseUrl = "http://localhost:8000";
       const { data: clientId } = await axios.get(`${baseUrl}/api/config/paypal`);
-      console.log(clientId);
+
       const script = document.createElement("script");
       script.type = "text/javascript"
       script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
