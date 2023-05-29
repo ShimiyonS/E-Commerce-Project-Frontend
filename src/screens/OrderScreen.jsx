@@ -10,7 +10,7 @@ import Loader from "../components/shared/Loader";
 import { PayPalButton } from "react-paypal-button-v2";
 
 const OrderScreen = () => {
-  const {id}=useParams();
+  const { id } = useParams();
   const orderId = id;
   const [sdkReady, setSdkReady] = useState(false);
   const dispatch = useDispatch();
@@ -38,11 +38,13 @@ const OrderScreen = () => {
 
   useEffect(() => {
     const addPaypalScript = async () => {
-      const baseUrl = "http://localhost:8000";
-      const { data: clientId } = await axios.get(`${baseUrl}/api/config/paypal`);
+      const baseUrl = "https://new-project-six-teal.vercel.app";
+      const { data: clientId } = await axios.get(
+        `${baseUrl}/api/config/paypal`
+      );
 
       const script = document.createElement("script");
-      script.type = "text/javascript"
+      script.type = "text/javascript";
       script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
       script.async = true;
       script.onload = () => {
@@ -161,18 +163,19 @@ const OrderScreen = () => {
             </ListGroup>
           </Card>
           {!order.isPaid && (
-
             <ListGroup.Item>
               {loadingPay && <Loader />}
               {!sdkReady ? (
                 <Loader />
               ) : (
                 
-                <PayPalButton
-                  amount={order.totalPrice}
-                  onSuccess={successPaymentHandler}
-                />
-               
+                
+                  <PayPalButton
+                amount={order.totalPrice}
+                    onSuccess={successPaymentHandler}>
+                    >
+                    </PayPalButton>    
+                  
               )}
             </ListGroup.Item>
           )}
