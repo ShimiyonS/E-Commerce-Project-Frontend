@@ -58,15 +58,12 @@ const LoginScreen = () => {
             ></Form.Control>
           </Form.Group>
           <Button type="submit" varient="primary">
-            SING IN
+            SIGN IN
           </Button>
         </Form>
         <Row>
           <Col>
-            New Customer ?
-            <Link to={"/register"}>
-              Register
-            </Link>
+            New Customer ?<Link to={"/register"}>Register</Link>
           </Col>
         </Row>
       </FormContainer>

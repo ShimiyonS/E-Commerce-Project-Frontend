@@ -23,7 +23,7 @@ export const logout = () => (dispatch) => {
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: USER_LOGOUT });
 };
-const baseUrl = "https://new-project-six-teal.vercel.app";
+const baseUrl = "http://localhost:5000";
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
@@ -123,7 +123,11 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.put(`${baseUrl}api/users/profile`, user, config);
+    const { data } = await axios.put(
+      `${baseUrl}api/users/profile`,
+      user,
+      config
+    );
     dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({

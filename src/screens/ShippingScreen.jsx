@@ -3,7 +3,6 @@ import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import FromContainer from "../components/shared/FromContainer";
 import { saveShippingAddress } from "../actions/cartAction";
-import ChekcoutStep from "../components/shared/CheckoutStep";
 import CheckoutStep from "../components/shared/CheckoutStep";
 import { useNavigate } from "react-router-dom";
 

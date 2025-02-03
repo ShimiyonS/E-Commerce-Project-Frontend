@@ -21,7 +21,7 @@ const OrderScreen = () => {
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successpay } = orderPay;
   if (!loading) {
-    //   Calculate prices
+    //   Calculate pricesN
     const addDecimals = (num) => {
       return (Math.round(num * 100) / 100).toFixed(2);
     };
@@ -38,7 +38,7 @@ const OrderScreen = () => {
 
   useEffect(() => {
     const addPaypalScript = async () => {
-      const baseUrl = "https://new-project-six-teal.vercel.app";
+      const baseUrl = "http://localhost:5000";
       const { data: clientId } = await axios.get(
         `${baseUrl}/api/config/paypal`
       );
@@ -102,6 +102,7 @@ const OrderScreen = () => {
               <strong>Method :</strong>
               <strong>{order.paymentMethod}</strong>
             </p>
+            {console.log(order)}
             {order.isPaid ? (
               <Message variant="success">Paid On {order.paidAt}</Message>
             ) : (
@@ -168,14 +169,10 @@ const OrderScreen = () => {
               {!sdkReady ? (
                 <Loader />
               ) : (
-                
-                
-                  <PayPalButton
-                amount={order.totalPrice}
-                    onSuccess={successPaymentHandler}>
-                    >
-                    </PayPalButton>    
-                  
+                <PayPalButton
+                  amount={order.totalPrice}
+                  onSuccess={successPaymentHandler}
+                ></PayPalButton>
               )}
             </ListGroup.Item>
           )}

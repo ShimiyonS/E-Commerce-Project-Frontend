@@ -7,7 +7,7 @@ import {
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAILS,
 } from "../constants/productConstant";
-const baseUrl = "https://new-project-six-teal.vercel.app";
+const baseUrl = "http://localhost:5000";
 export const listProducts = () => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });

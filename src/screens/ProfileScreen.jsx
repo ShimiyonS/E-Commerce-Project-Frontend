@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col, Table } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +16,7 @@ const ProfileScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const location = useLocation();
-  const history= useNavigate();
+  const history = useNavigate();
 
   const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.userDetails);
@@ -122,6 +122,7 @@ const ProfileScreen = () => {
               <tbody>
                 {orders.map((order) => (
                   <tr key={order._id}>
+                    {console.log(order)}
                     <td>{order._id}</td>
                     <td>{order.createdAt.substring(0, 10)}</td>
                     <td>{order.totalPrice}</td>

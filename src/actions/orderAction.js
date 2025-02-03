@@ -13,7 +13,7 @@ import {
   ORDER_LIST_MY_SUCCESS,
   ORDER_LIST_MY_FAIL,
 } from "../constants/orderConstant";
-const baseUrl = "https://new-project-six-teal.vercel.app";
+const baseUrl = "http://localhost:5000";
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
     dispatch({
