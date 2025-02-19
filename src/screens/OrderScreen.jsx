@@ -7,12 +7,12 @@ import { getOrderDetails, payOrder } from "../actions/orderAction";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/shared/Message";
 import Loader from "../components/shared/Loader";
-import { PayPalButton } from "react-paypal-button-v2";
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 const OrderScreen = () => {
   const { id } = useParams();
   const orderId = id;
-  const [sdkReady, setSdkReady] = useState(false);
+  const [sdkReady, setSdkReady] = useState(true);
   const dispatch = useDispatch();
 
   const orderDetails = useSelector((state) => state.orderDetails);
@@ -32,13 +32,12 @@ const OrderScreen = () => {
   }
 
   const successPaymentHandler = (paymentResult) => {
-    console.log(paymentResult);
     dispatch(payOrder(orderId, paymentResult));
   };
 
   useEffect(() => {
     const addPaypalScript = async () => {
-      const baseUrl = "http://localhost:5000";
+      const baseUrl = "http://localhost:8000";
       const { data: clientId } = await axios.get(
         `${baseUrl}/api/config/paypal`
       );
@@ -56,13 +55,41 @@ const OrderScreen = () => {
       dispatch({ type: ORDER_PAY_RESET });
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
-      if (!window.paypal) {
-        addPaypalScript();
-      } else {
-        setSdkReady(true);
-      }
+      // if (!window.paypal) {
+      //   addPaypalScript();
+      // } else {
+      //   setSdkReady(true);
+      // }
     }
   }, [dispatch, orderId, order, successpay]);
+
+  const createOrder = async () => {
+    const response = await fetch(
+      "http://localhost:8000/api/orders/paypal/create-order",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: order.totalPrice }),
+      }
+    );
+    const data = await response.json();
+    return data.id; // Order ID
+  };
+
+  const onApprove = async (data) => {
+    const response = await fetch(
+      "http://localhost:8000/api/orders/paypal/capture-order",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderID: data.orderID }),
+      }
+    );
+
+    const captureData = await response.json();
+    console.log("Payment Captured:", captureData);
+    dispatch(payOrder(orderId, captureData));
+  };
 
   return loading ? (
     <Loader />
@@ -102,7 +129,6 @@ const OrderScreen = () => {
               <strong>Method :</strong>
               <strong>{order.paymentMethod}</strong>
             </p>
-            {console.log(order)}
             {order.isPaid ? (
               <Message variant="success">Paid On {order.paidAt}</Message>
             ) : (
@@ -169,10 +195,19 @@ const OrderScreen = () => {
               {!sdkReady ? (
                 <Loader />
               ) : (
-                <PayPalButton
-                  amount={order.totalPrice}
-                  onSuccess={successPaymentHandler}
-                ></PayPalButton>
+                <PayPalScriptProvider
+                  options={{
+                    "client-id":
+                      "ASbAHxY9Jj8tAEX5NZFJzz9ChAa9vWMzez9TsLGmp7JcnzXdGV6oMqazrZtsvbuNlGbZwWQ5oWJKcjBu",
+                  }}
+                >
+                  <PayPalButtons
+                    amount={order.totalPrice}
+                    createOrder={createOrder}
+                    onApprove={onApprove}
+                    onSuccess={successPaymentHandler}
+                  />
+                </PayPalScriptProvider>
               )}
             </ListGroup.Item>
           )}
