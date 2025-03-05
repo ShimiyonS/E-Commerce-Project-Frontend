@@ -37,7 +37,7 @@ const OrderScreen = () => {
 
   useEffect(() => {
     const addPaypalScript = async () => {
-      const baseUrl = "http://localhost:8000";
+      const baseUrl = "https://e-commerce-project-backend-one.vercel.app";
       const { data: clientId } = await axios.get(
         `${baseUrl}/api/config/paypal`
       );
@@ -65,7 +65,7 @@ const OrderScreen = () => {
 
   const createOrder = async () => {
     const response = await fetch(
-      "http://localhost:8000/api/orders/paypal/create-order",
+      `${process.env.REACT_APP_API_URL}/api/orders/paypal/create-order`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -78,7 +78,7 @@ const OrderScreen = () => {
 
   const onApprove = async (data) => {
     const response = await fetch(
-      "http://localhost:8000/api/orders/paypal/capture-order",
+      `${process.env.REACT_APP_API_URL}/api/orders/paypal/capture-order`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

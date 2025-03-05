@@ -13,7 +13,7 @@ import {
   ORDER_LIST_MY_SUCCESS,
   ORDER_LIST_MY_FAIL,
 } from "../constants/orderConstant";
-const baseUrl = "http://localhost:8000";
+const baseUrl = process.env.REACT_APP_API_URL;
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
     dispatch({

@@ -7,7 +7,7 @@ import {
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAILS,
 } from "../constants/productConstant";
-const baseUrl = "http://localhost:8000";
+const baseUrl = process.env.REACT_APP_API_URL;
 export const listProducts = () => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
